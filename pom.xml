@@ -34,6 +34,15 @@
 				<module>org.lunifera.runtime.kernel.library</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>lunifera.tests.integration</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>org.lunifera.tests.integration.runtime.kernel</module>
+			</modules>
+		</profile>
 
 	</profiles>
 
