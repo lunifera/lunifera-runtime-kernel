@@ -57,7 +57,8 @@
 				<configuration>
 					<instructions>
 						<Export-Package>
-							org.lunifera.runtime.kernel.api.*
+							org.lunifera.runtime.kernel.api.*,
+							org.lunifera.runtime.kernel.spi.*
 						</Export-Package>
 						<Eclipse-ExtensibleAPI>true</Eclipse-ExtensibleAPI>
 					</instructions>

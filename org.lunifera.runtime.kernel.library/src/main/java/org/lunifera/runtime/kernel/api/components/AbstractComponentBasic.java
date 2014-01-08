@@ -14,6 +14,7 @@ import java.util.Dictionary;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.lunifera.runtime.kernel.api.KernelConstants;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentConstants;
 import org.osgi.service.component.ComponentContext;
@@ -30,8 +31,6 @@ import org.osgi.service.component.ComponentContext;
  * 
  */
 public abstract class AbstractComponentBasic {
-
-    public static final String COMPONENT_DESCRIPTION = "component.description";
 
     /**
      * The component ID is defined by DS bundle.
@@ -86,7 +85,7 @@ public abstract class AbstractComponentBasic {
         componentName = (String) getProperties().get(
                 ComponentConstants.COMPONENT_NAME);
         componentDescription = (String) getProperties().get(
-                COMPONENT_DESCRIPTION);
+                KernelConstants.COMPONENT_DESCRIPTION);
     }
 
     /**

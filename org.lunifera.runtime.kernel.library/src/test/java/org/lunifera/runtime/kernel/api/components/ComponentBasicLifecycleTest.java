@@ -23,6 +23,7 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.lunifera.runtime.kernel.api.KernelConstants;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.osgi.service.component.ComponentConstants;
@@ -84,7 +85,7 @@ public class ComponentBasicLifecycleTest {
         Dictionary<String, Object> dict = new Hashtable<>();
         dict.put(ComponentConstants.COMPONENT_ID, 121212l);
         dict.put(ComponentConstants.COMPONENT_NAME, "Mocked modified component");
-        dict.put(AbstractComponentCompendium.COMPONENT_DESCRIPTION,
+        dict.put(KernelConstants.COMPONENT_DESCRIPTION,
                 "Mocked modified Component Description");
 
         when(componentContext.getProperties()).thenReturn(dict);
@@ -101,7 +102,7 @@ public class ComponentBasicLifecycleTest {
         Dictionary<String, Object> dict = new Hashtable<>();
         dict.put(ComponentConstants.COMPONENT_ID, 121212l);
         dict.put(ComponentConstants.COMPONENT_NAME, "Mocked Component");
-        dict.put(AbstractComponentCompendium.COMPONENT_DESCRIPTION,
+        dict.put(KernelConstants.COMPONENT_DESCRIPTION,
                 "Mocked Component Description");
 
         return dict;
