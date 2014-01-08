@@ -36,6 +36,26 @@
 				<module>org.lunifera.runtime.kernel.logging.slf4j</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>lunifera.tests.integration.equinox</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>org.lunifera.tests.integration.samples.bundle.extendee</module>
+				<module>org.lunifera.tests.integration.runtime.kernel</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>lunifera.tests.integration.felix</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>org.lunifera.tests.integration.samples.bundle.extendee</module>
+				<module>org.lunifera.tests.integration.runtime.kernel</module>
+			</modules>
+		</profile>
 
 	</profiles>
 

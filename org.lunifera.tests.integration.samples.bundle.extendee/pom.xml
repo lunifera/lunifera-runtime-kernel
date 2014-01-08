@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.lunifera.runtime.kernel</groupId>
+        <artifactId>org.lunifera.runtime.kernel.parent.pom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../org.lunifera.runtime.kernel.parent.pom/pom.xml</relativePath>
+    </parent>
+
+	<artifactId>org.lunifera.tests.integration.samples.bundle.extendee</artifactId>
+	<packaging>bundle</packaging>
+
+	<dependencies>
+        <dependency>
+            <groupId>org.lunifera.runtime.kernel</groupId>
+            <artifactId>org.lunifera.runtime.kernel.library</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+						<Lunifera-Config>/OSGI-INF/config/*.cfg</Lunifera-Config>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-scr-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-scr-scrdescriptor</id>
+						<goals>
+							<goal>scr</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
