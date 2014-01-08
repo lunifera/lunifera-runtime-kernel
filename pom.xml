@@ -32,15 +32,8 @@
 			<modules>
 				<module>org.lunifera.runtime.kernel.parent.pom</module>
 				<module>org.lunifera.runtime.kernel.library</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>lunifera.tests.integration</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<modules>
-				<module>org.lunifera.tests.integration.runtime.kernel</module>
+				<module>org.lunifera.runtime.kernel.controller.configurations</module>
+				<module>org.lunifera.runtime.kernel.logging.slf4j</module>
 			</modules>
 		</profile>
 
