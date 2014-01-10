@@ -14,10 +14,10 @@ import java.util.Dictionary;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.lunifera.runtime.kernel.api.KernelConstants;
-import org.lunifera.runtime.kernel.api.components.AbstractComponentManageable;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
-import org.lunifera.runtime.kernel.api.components.ExceptionUnrecoveredActivationError;
+import org.lunifera.runtime.kernel.api.components.ExceptionComponentUnrecoveredActivationError;
 import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
+import org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -25,7 +25,6 @@ import org.osgi.framework.Filter;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentConstants;
 import org.osgi.service.component.ComponentContext;
-import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.util.tracker.BundleTracker;
 import org.osgi.util.tracker.BundleTrackerCustomizer;
@@ -45,7 +44,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
  * @author Cristiano Gavião
  */
 public abstract class AbstractComponentExtender extends
-        AbstractComponentManageable implements ComponentExtenderService {
+        AbstractComponentKernelManageable implements ComponentExtenderService {
 
     /**
      * This class is used to track the 'extendee' bundles.
@@ -70,20 +69,20 @@ public abstract class AbstractComponentExtender extends
          * @param context
          * @param stateMask
          * @param customizer
-         * @throws ExceptionUnrecoveredActivationError
+         * @throws ExceptionComponentUnrecoveredActivationError
          */
         protected ContributorBundleTracker(
                 AbstractComponentExtender abstractComponentExtender,
                 BundleContext context,
                 int stateMask,
                 BundleTrackerCustomizer<ContributorBundleTrackerObject> customizer)
-                throws ExceptionUnrecoveredActivationError {
+                throws ExceptionComponentUnrecoveredActivationError {
             super(context, stateMask, customizer);
             this.abstractComponentExtender = abstractComponentExtender;
             this.contributionHandlerService = abstractComponentExtender
                     .getContributionHandlerService();
             if (this.contributionHandlerService == null) {
-                throw new ExceptionUnrecoveredActivationError(
+                throw new ExceptionComponentUnrecoveredActivationError(
                         "An instance of ContributionHandlerService wasn't set.");
             }
         }
@@ -92,11 +91,12 @@ public abstract class AbstractComponentExtender extends
          * 
          * @param abstractComponentExtender
          * @param stateMask
-         * @throws ExceptionUnrecoveredActivationError
+         * @throws ExceptionComponentUnrecoveredActivationError
          */
         protected ContributorBundleTracker(
                 AbstractComponentExtender abstractComponentExtender,
-                int stateMask) throws ExceptionUnrecoveredActivationError {
+                int stateMask)
+                throws ExceptionComponentUnrecoveredActivationError {
             this(abstractComponentExtender, abstractComponentExtender
                     .getComponentContext().getBundleContext(), stateMask, null);
         }
@@ -269,9 +269,11 @@ public abstract class AbstractComponentExtender extends
      * 
      * @param compendiumServices
      */
-    protected AbstractComponentExtender(ComponentContext componentContext,
+    protected AbstractComponentExtender(
+            ComponentContext componentContext,
             ContributionHandlerService contributionHandlerService,
-            Filter contributionHandlerServiceFilter, ServiceTracker<ContributionHandlerService, ContributionHandlerService> contributionHandlerServiceTracker) {
+            Filter contributionHandlerServiceFilter,
+            ServiceTracker<ContributionHandlerService, ContributionHandlerService> contributionHandlerServiceTracker) {
         super(componentContext);
         this.contributionHandlerServiceRef.set(contributionHandlerService);
         this.contributionHandlerServiceFilter = contributionHandlerServiceFilter;
@@ -345,8 +347,11 @@ public abstract class AbstractComponentExtender extends
                         stateMask);
             }
             contributorBundleTracker.open();
+            trace("Now listening for bundles with "
+                    + getExtenderContributorManifestHeader()
+                    + "manifest header...");
         } else {
-            throw new ExceptionUnrecoveredActivationError(
+            throw new ExceptionComponentUnrecoveredActivationError(
                     "Couldn't find an implementation of ContributionHandlerService.");
         }
     }
@@ -388,7 +393,7 @@ public abstract class AbstractComponentExtender extends
             contributionHandlerServiceFilter = buildFilter();
 
         if (contributionHandlerServiceFilter == null) {
-            throw new ExceptionUnrecoveredActivationError(
+            throw new ExceptionComponentUnrecoveredActivationError(
                     "The extender class requires a proper configuration of the @ComponentExtenderSetup annotation.");
         }
         // open the service tracker...
@@ -544,40 +549,30 @@ public abstract class AbstractComponentExtender extends
      * 
      * @return
      */
-    protected String getExtenderContributorManifestHeader() {
+    public String getExtenderContributorManifestHeader() {
         return extenderContributorManifestHeader;
     }
 
     /**
      * @return the extensionHandlingStrategy
      */
-    protected ExtensionHandlingStrategy getExtensionStrategy() {
+    public ExtensionHandlingStrategy getExtensionStrategy() {
         return extensionHandlingStrategy;
     }
 
     /**
      * @return the contributionItemResourceType
      */
-    protected ContributionItemResourceType getManifestHeaderItemType() {
+    public ContributionItemResourceType getManifestHeaderItemType() {
         return contributionItemResourceType;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.ManageableComponent#
-     * handleKernelNotification(org.osgi.service.event.Event)
-     */
-    @Override
-    public void handleKernelNotification(Event event) {
-        // TODO Auto-generated method stub
-
-    }
-
     /**
-     * Method used to test purposes only.
+     * This method used to test purposes only. It should not be accessed by any
+     * other code.
      * 
      * @param bundleTracker
+     * 
      */
     protected final void setContributorBundleTracker(
             ContributorBundleTracker bundleTracker) {

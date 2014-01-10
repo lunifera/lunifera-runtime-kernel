@@ -13,7 +13,6 @@
  */
 package org.lunifera.runtime.kernel.spi.extenders;
 
-
 /**
  * @since 0.0.1
  * @author Cristiano Gavião
@@ -21,4 +20,9 @@ package org.lunifera.runtime.kernel.spi.extenders;
  */
 public interface ComponentExtenderService {
 
+    String getExtenderContributorManifestHeader();
+
+    ExtensionHandlingStrategy getExtensionStrategy();
+
+    ContributionItemResourceType getManifestHeaderItemType();
 }
