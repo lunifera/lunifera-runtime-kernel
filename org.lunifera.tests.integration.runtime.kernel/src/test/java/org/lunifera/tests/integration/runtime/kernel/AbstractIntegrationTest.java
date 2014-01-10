@@ -140,9 +140,6 @@ public abstract class AbstractIntegrationTest {
                         .startLevel(1),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
-                        + "/../org.lunifera.runtime.kernel.security/target/classes"),
-                url("reference:file:"
-                        + PathUtils.getBaseDir()
                         + "/../org.lunifera.runtime.kernel.configuration/target/classes").startLevel(4),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
