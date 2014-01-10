@@ -22,7 +22,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.runtime.kernel</groupId>
-			<artifactId>org.lunifera.runtime.kernel.controller.configurations</artifactId>
+			<artifactId>org.lunifera.runtime.kernel.configuration</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime.kernel</groupId>
+			<artifactId>org.lunifera.runtime.kernel.logging.slf4j</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>

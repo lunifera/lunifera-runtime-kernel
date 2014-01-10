@@ -16,10 +16,10 @@ import static org.knowhowlab.osgi.testing.assertions.ServiceAssert.assertService
 import static org.knowhowlab.osgi.testing.utils.FilterUtils.and;
 import static org.knowhowlab.osgi.testing.utils.FilterUtils.create;
 import static org.knowhowlab.osgi.testing.utils.FilterUtils.eq;
+import static org.ops4j.pax.exam.CoreOptions.cleanCaches;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.options;
-import static org.ops4j.pax.exam.CoreOptions.cleanCaches;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 import static org.ops4j.pax.exam.CoreOptions.url;
 import static org.ops4j.pax.exam.CoreOptions.when;
@@ -36,7 +36,6 @@ import org.knowhowlab.osgi.testing.assertions.OSGiAssert;
 import org.knowhowlab.osgi.testing.assertions.ServiceAssert;
 import org.knowhowlab.osgi.testing.assertions.cmpn.ConfigurationAdminAssert;
 import org.knowhowlab.osgi.testing.utils.FilterUtils;
-import org.lunifera.runtime.kernel.api.logging.LoggingManagementService;
 import org.ops4j.pax.exam.CoreOptions;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
@@ -77,7 +76,7 @@ public abstract class AbstractIntegrationTest {
      */
     protected static Option[] baseConfiguration(Option... extraOptions) {
         Option[] options = options(
-                 cleanCaches(),
+                cleanCaches(),
 
                 when(isEquinox()).useOptions(
                         mavenBundle("org.lunifera.osgi",
@@ -133,19 +132,21 @@ public abstract class AbstractIntegrationTest {
                 mavenBundle("commons-lang", "commons-lang", "2.6"),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
-                        + "/../org.lunifera.tests.integration.samples.bundle.extendee/target/classes"),
-                url("reference:file:"
-                        + PathUtils.getBaseDir()
                         + "/../org.lunifera.runtime.kernel.library/target/classes"),
+                url(
+                        "reference:file:"
+                                + PathUtils.getBaseDir()
+                                + "/../org.lunifera.runtime.kernel.logging.slf4j/target/classes")
+                        .startLevel(1),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
-                        + "/../org.lunifera.runtime.kernel.logging.slf4j/target/classes"),
+                        + "/../org.lunifera.runtime.kernel.security/target/classes"),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
-                        + "/../org.lunifera.runtime.kernel.security.shiro.core/target/classes"),
+                        + "/../org.lunifera.runtime.kernel.configuration/target/classes").startLevel(4),
                 url("reference:file:"
                         + PathUtils.getBaseDir()
-                        + "/../org.lunifera.runtime.kernel.controller.configurations/target/classes"));
+                        + "/../org.lunifera.tests.integration.samples.bundle.extendee/target/classes"));
         if (extraOptions != null) {
             options = combine(options, extraOptions);
         }
@@ -173,12 +174,12 @@ public abstract class AbstractIntegrationTest {
         ServiceAssert.setDefaultBundleContext(bc);
         BundleAssert.setDefaultBundleContext(bc);
         ConfigurationAdminAssert.setDefaultBundleContext(bc);
-        
+
         ensureLuniferaBundlesAreAvailable();
         ensureLuniferaBundlesAreActive();
         ensureCompendiumServicesAreFunctional();
     }
-    
+
     public void ensureLuniferaBundlesAreActive() {
 
         assertBundleState(Bundle.ACTIVE, 1);
@@ -186,11 +187,10 @@ public abstract class AbstractIntegrationTest {
                 5, TimeUnit.SECONDS);
         assertBundleState(Bundle.ACTIVE, "org.lunifera.runtime.kernel.library");
         assertBundleState(Bundle.ACTIVE,
-                "org.lunifera.runtime.kernel.controller.configurations");
+                "org.lunifera.runtime.kernel.configuration");
         assertBundleState(Bundle.ACTIVE,
                 "org.lunifera.runtime.kernel.logging.slf4j");
-        assertBundleState(Bundle.ACTIVE,
-                "org.lunifera.runtime.kernel.security.shiro.core");
+        assertBundleState(Bundle.ACTIVE, "org.lunifera.runtime.kernel.security");
         assertBundleState(Bundle.ACTIVE,
                 "org.lunifera.tests.integration.samples.bundle.extendee");
 
@@ -200,16 +200,17 @@ public abstract class AbstractIntegrationTest {
         assertBundleAvailable("org.knowhowlab.osgi.testing.utils", new Version(
                 "1.2.2"));
         assertBundleAvailable("org.lunifera.runtime.kernel.library");
-        assertBundleAvailable("org.lunifera.runtime.kernel.controller.configurations");
+        assertBundleAvailable("org.lunifera.runtime.kernel.configuration");
         assertBundleAvailable("org.lunifera.runtime.kernel.logging.slf4j");
-        assertBundleAvailable("org.lunifera.runtime.kernel.security.shiro.core");
+        assertBundleAvailable("org.lunifera.runtime.kernel.security");
         assertBundleAvailable("slf4j.api");
         assertBundleAvailable("org.apache.shiro.core");
         assertBundleAvailable("org.lunifera.tests.integration.samples.bundle.extendee");
 
     }
 
-    public void ensureCompendiumServicesAreFunctional() throws InvalidSyntaxException {
+    public void ensureCompendiumServicesAreFunctional()
+            throws InvalidSyntaxException {
         assertServiceAvailable(EventAdmin.class);
         assertServiceAvailable(PreferencesService.class, 1, TimeUnit.SECONDS);
         assertServiceAvailable(ConfigurationAdmin.class);
@@ -221,8 +222,8 @@ public abstract class AbstractIntegrationTest {
 
         // asserts that test service with custom properties is available
         assertServiceAvailable(and(
-                create(LoggingManagementService.class),
+                create(org.lunifera.runtime.kernel.spi.logging.ManagementServiceFrameworkLogging.class),
                 eq("component.name",
-                        "org.lunifera.runtime.kernel.internal.logging.slf4j.ComponentFactorySlf4jLogger")));
+                        "org.lunifera.runtime.kernel.internal.logging.ComponentControllerFrameworkLoggingManagement")));
     }
 }

@@ -32,7 +32,7 @@
 			<modules>
 				<module>org.lunifera.runtime.kernel.parent.pom</module>
 				<module>org.lunifera.runtime.kernel.library</module>
-				<module>org.lunifera.runtime.kernel.controller.configurations</module>
+				<module>org.lunifera.runtime.kernel.configuration</module>
 				<module>org.lunifera.runtime.kernel.logging.slf4j</module>
 			</modules>
 		</profile>

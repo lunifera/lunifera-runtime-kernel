@@ -16,7 +16,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -console"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -console -clean"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms40m -Xmx512m -Xdock:icon=../Resources/Eclipse.icns -XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -Declipse.ignoreApp=true -Dequinox.provisioning.file.provider.specfile.location=/Users/cvgaviao/Development/C4Biz_Projects/Lunifera/lunifera-container-luna/initial_provisioning_setup/props.txt -Dequinox.provisioning.reprovision.onstart=true -Dequinox.provisioning.cm.support=false -Dosgi.noShutdown=true -Dlunifera.logging.level=trace  -Dequinox.provisioning.debug=true -Dequinox.provisioning.prv.fwstart=true -Dequinox.provisioning.file.provider.allowed=true -Dequinox.provisioning.file.load.once=false -Dequinox.provisioning.httpprv.allowed=false -Dequinox.provisioning.http.provider.secure=false -Dprovisioning.spid=teste -Dequinox.provisioning.close.zip=true -Dequinox.provisioning.send.trace=true"/>
 <stringAttribute key="pde.version" value="3.3"/>
@@ -133,5 +133,5 @@
 </mapAttribute>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="org.lunifera.runtime.kernel.controller.configurations@default:default,org.lunifera.runtime.kernel.library@default:default,org.lunifera.runtime.kernel.logging.slf4j@1:default,org.lunifera.runtime.kernel.security.shiro.core@default:default,org.lunifera.tests.integration.samples.bundle.extendee@default:true"/>
+<stringAttribute key="workspace_bundles" value="org.lunifera.runtime.kernel.configuration@default:default,org.lunifera.runtime.kernel.library@default:default,org.lunifera.runtime.kernel.logging.slf4j@1:default,org.lunifera.tests.integration.samples.bundle.extendee@default:true"/>
 </launchConfiguration>
