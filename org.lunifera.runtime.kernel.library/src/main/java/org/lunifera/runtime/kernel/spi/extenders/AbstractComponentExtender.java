@@ -331,28 +331,12 @@ public abstract class AbstractComponentExtender extends
         return contributionHandlerServiceFilter;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.ManageableComponent#
-     * doFirstLevelActivation()
-     */
-    @Override
-    public void doFirstLevelActivation() throws ExceptionComponentLifecycle {
-
-        // get one contribution handler service...
-        if (getContributionHandlerService() != null) {
-            if (contributorBundleTracker == null) {
-                contributorBundleTracker = new ContributorBundleTracker(this,
-                        stateMask);
-            }
-            contributorBundleTracker.open();
-            trace("Now listening for bundles with "
+    protected void closeContributorBundleTracker() {
+        if (contributorBundleTracker != null) {
+            contributorBundleTracker.close();
+            trace("End listening for bundles with "
                     + getExtenderContributorManifestHeader()
                     + "manifest header...");
-        } else {
-            throw new ExceptionComponentUnrecoveredActivationError(
-                    "Couldn't find an implementation of ContributionHandlerService.");
         }
     }
 
@@ -399,19 +383,6 @@ public abstract class AbstractComponentExtender extends
         // open the service tracker...
         getContributionHandlerServiceTracker().open();
 
-        try {
-            getContributionHandlerServiceTracker().waitForService(1500);
-        } catch (InterruptedException e) {
-            warn("Couldn't find an implementation of ContributionHandlerService.",
-                    e);
-            try {
-                getContributionHandlerServiceTracker().waitForService(1500);
-            } catch (InterruptedException e2) {
-                error("Couldn't find an implementation of ContributionHandlerService.",
-                        e2);
-                throw e2;
-            }
-        }
     }
 
     /*
@@ -524,6 +495,7 @@ public abstract class AbstractComponentExtender extends
                             ContributionHandlerService service = getBundleContext()
                                     .getService(reference);
                             contributionHandlerServiceRef.set(service);
+                            openContributorBundleTracker();
                             return service;
                         }
 
@@ -539,6 +511,7 @@ public abstract class AbstractComponentExtender extends
                                 ContributionHandlerService service) {
                             contributionHandlerServiceRef.compareAndSet(
                                     service, null);
+                            closeContributorBundleTracker();
                         }
                     });
         }
@@ -574,6 +547,16 @@ public abstract class AbstractComponentExtender extends
         return contributionItemResourceType;
     }
 
+    protected void openContributorBundleTracker() {
+        if (contributorBundleTracker == null) {
+            contributorBundleTracker = new ContributorBundleTracker(this,
+                    stateMask);
+        }
+        contributorBundleTracker.open();
+        trace("Now listening for bundles with "
+                + getExtenderContributorManifestHeader() + "manifest header...");
+    }
+
     /**
      * This method used to test purposes only. It should not be accessed by any
      * other code.
@@ -597,5 +580,13 @@ public abstract class AbstractComponentExtender extends
                         .getClass().getName());
         this.contributionHandlerServiceRef.compareAndSet(
                 contributionHandlerService, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable#doFirstLevelActivation()
+     */
+    @Override
+    protected void doFirstLevelActivation() throws ExceptionComponentLifecycle {
+        
     }
 }
