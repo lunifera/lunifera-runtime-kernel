@@ -8,7 +8,7 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.internal.controller.configurations.cm;
+package org.lunifera.runtime.kernel.internal.configuration;
 
 import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
 import org.lunifera.runtime.kernel.spi.extenders.AbstractComponentExtender;
@@ -36,16 +36,15 @@ import org.osgi.util.tracker.ServiceTracker;
  * @since 0.0.1
  * @author Cristiano Gavião
  */
-@Component(enabled = true, immediate = true,
-        service = ComponentExtenderService.class)
+@Component(enabled = true, immediate=true, service = ComponentExtenderService.class)
 @ComponentExtenderSetup(manifestHeaderName = "Lunifera-Config")
-public class ComponentExtenderConfigurationAdmin extends
+public class ComponentExtenderConfigurationAdminProperties extends
         AbstractComponentExtender {
 
     /**
      * A default constructor is required by the OSGi Declarative Service.
      */
-    public ComponentExtenderConfigurationAdmin() {
+    public ComponentExtenderConfigurationAdminProperties() {
         super();
     }
 
@@ -55,7 +54,7 @@ public class ComponentExtenderConfigurationAdmin extends
      * @param compendiumServices
      * @param contributionHandlerService
      */
-    public ComponentExtenderConfigurationAdmin(
+    public ComponentExtenderConfigurationAdminProperties(
             ComponentContext componentContext,
             ContributionHandlerService contributionHandlerService,
             Filter contributionHandlerServiceFilter,

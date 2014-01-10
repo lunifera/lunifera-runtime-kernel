@@ -8,7 +8,7 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.internal.controller.configurations.cm;
+package org.lunifera.runtime.kernel.internal.configuration;
 
 import static org.osgi.framework.Constants.SERVICE_PID;
 
@@ -17,22 +17,21 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.lunifera.runtime.kernel.api.controller.configurations.ConfigurationManagementService;
-import org.lunifera.runtime.kernel.spi.annotations.ComponentControllerSetup;
-import org.lunifera.runtime.kernel.spi.controllers.AbstractComponentRuntimeKernelController;
+import org.lunifera.runtime.kernel.api.configuration.LuniferaFrameworkConfigurationManagementService;
+import org.lunifera.runtime.kernel.spi.configuration.ManagementServiceFrameworkConfiguration;
+import org.lunifera.runtime.kernel.spi.controllers.AbstractComponentKernelController;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.event.Event;
 
 @Component(immediate = true)
-@ComponentControllerSetup
-public class ComponentControllerConfigurationManagementService extends
-        AbstractComponentRuntimeKernelController implements
-        ConfigurationManagementService {
+public class ComponentControllerFrameworkConfigurationManagement extends
+        AbstractComponentKernelController implements
+        LuniferaFrameworkConfigurationManagementService,
+        ManagementServiceFrameworkConfiguration {
 
     private ConfigurationAdmin configurationAdmin;
 
@@ -139,8 +138,9 @@ public class ComponentControllerConfigurationManagementService extends
     /*
      * (non-Javadoc)
      * 
-     * @see org.lunifera.runtime.kernel.api.controller.configurations.
-     * ConfigurationManagementService#displayConfiguration(java.lang.String)
+     * @see org.lunifera.runtime.kernel.api.configuration.
+     * LuniferaFrameworkConfigurationManagementService
+     * #displayConfiguration(java.lang.String)
      */
     @Override
     public String displayConfiguration(String pid) {
@@ -320,18 +320,6 @@ public class ComponentControllerConfigurationManagementService extends
             error("Error on setup Configuration Service", e);
         }
         return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.ManageableComponent#
-     * handleKernelNotification(org.osgi.service.event.Event)
-     */
-    @Override
-    public void handleKernelNotification(Event event) {
-        // TODO Auto-generated method stub
-
     }
 
     /*

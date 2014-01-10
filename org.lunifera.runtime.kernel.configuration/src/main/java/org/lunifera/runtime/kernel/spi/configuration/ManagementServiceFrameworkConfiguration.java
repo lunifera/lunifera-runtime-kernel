@@ -8,10 +8,17 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
+package org.lunifera.runtime.kernel.spi.configuration;
+
+
 /**
  *
- * @since 0.0.1
- * @author cvgaviao
- *
+ * 
+ * @author Cristiano Gavião
+ * 
  */
-package org.lunifera.runtime.kernel.api.controller.configurations;
+public interface ManagementServiceFrameworkConfiguration {
+
+    
+
+}

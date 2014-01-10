@@ -8,11 +8,11 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.api.controller.configurations;
+package org.lunifera.runtime.kernel.api.configuration;
 
 import java.util.Dictionary;
 
-public interface ConfigurationManagementService {
+public interface LuniferaFrameworkConfigurationManagementService {
     String CONFIGURATION_BASE_DIR_FIELD_NAME = "configurationBasedir";
 
     /**

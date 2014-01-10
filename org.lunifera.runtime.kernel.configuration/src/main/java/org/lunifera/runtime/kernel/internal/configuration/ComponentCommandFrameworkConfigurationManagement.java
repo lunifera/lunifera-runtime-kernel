@@ -8,13 +8,14 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.internal.controller.configurations.cm;
+package org.lunifera.runtime.kernel.internal.configuration;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.felix.service.command.Descriptor;
-import org.lunifera.runtime.kernel.api.components.AbstractComponentCompendium;
-import org.lunifera.runtime.kernel.api.controller.configurations.ConfigurationManagementService;
+import org.lunifera.runtime.kernel.api.configuration.LuniferaFrameworkConfigurationManagementService;
+import org.lunifera.runtime.kernel.spi.components.AbstractComponentCommand;
+import org.lunifera.runtime.kernel.spi.services.CommandService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -25,25 +26,26 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  */
 @Component(
         enabled = true,
-        service = ComponentCommandKernelConfigurations.class,
+        immediate = true,
+        service = CommandService.class,
         property = {
                 "osgi.command.scope=lunifera.configuration",
                 "osgi.command.function=displayFactoryConfiguration,displayConfiguration,putProperty" })
-public class ComponentCommandKernelConfigurations extends
-        AbstractComponentCompendium {
+public class ComponentCommandFrameworkConfigurationManagement extends
+        AbstractComponentCommand {
 
-    private final AtomicReference<ConfigurationManagementService> configurationManagementService = new AtomicReference<>();
+    private final AtomicReference<LuniferaFrameworkConfigurationManagementService> luniferaFrameworkConfigurationManagementService = new AtomicReference<>();
 
     @Reference(policy = ReferencePolicy.DYNAMIC)
     protected void bindConfigurationManagementService(
-            ConfigurationManagementService configurationManagementService) {
-        this.configurationManagementService.set(configurationManagementService);
-        trace("({}) - Bound ConfigurationManagementService for component '{}'.",
+            LuniferaFrameworkConfigurationManagementService luniferaFrameworkConfigurationManagementService) {
+        this.luniferaFrameworkConfigurationManagementService.set(luniferaFrameworkConfigurationManagementService);
+        trace("({}) - Bound LuniferaFrameworkConfigurationManagementService for component '{}'.",
                 getId(), getName());
     }
 
-    protected ConfigurationManagementService getConfigurationManagementService() {
-        return this.configurationManagementService.get();
+    protected LuniferaFrameworkConfigurationManagementService getConfigurationManagementService() {
+        return this.luniferaFrameworkConfigurationManagementService.get();
     }
 
     @Descriptor("Display one factory configuration.")
@@ -64,10 +66,10 @@ public class ComponentCommandKernelConfigurations extends
     }
 
     protected void unbindConfigurationManagementService(
-            ConfigurationManagementService configurationManagementService) {
-        trace("({}) - Unbound ConfigurationManagementService for component '{}'.",
+            LuniferaFrameworkConfigurationManagementService luniferaFrameworkConfigurationManagementService) {
+        trace("({}) - Unbound LuniferaFrameworkConfigurationManagementService for component '{}'.",
                 getId(), getName());
-        this.configurationManagementService.compareAndSet(
-                configurationManagementService, null);
+        this.luniferaFrameworkConfigurationManagementService.compareAndSet(
+                luniferaFrameworkConfigurationManagementService, null);
     }
 }

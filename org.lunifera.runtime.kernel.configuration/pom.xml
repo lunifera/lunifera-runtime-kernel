@@ -18,7 +18,7 @@
         <relativePath>../org.lunifera.runtime.kernel.parent.pom/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.runtime.kernel.controller.configurations</artifactId>
+	<artifactId>org.lunifera.runtime.kernel.configuration</artifactId>
 	<packaging>bundle</packaging>
 
     <dependencies>
