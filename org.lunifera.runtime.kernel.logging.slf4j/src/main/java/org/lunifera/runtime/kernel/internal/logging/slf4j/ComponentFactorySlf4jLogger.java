@@ -13,7 +13,6 @@ package org.lunifera.runtime.kernel.internal.logging.slf4j;
 import java.util.Dictionary;
 
 import org.lunifera.runtime.kernel.api.KernelConstants;
-import org.lunifera.runtime.kernel.api.logging.LoggingManagementService;
 import org.osgi.service.component.ComponentConstants;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -37,8 +36,7 @@ import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 import ch.qos.logback.core.util.StatusPrinter;
 
 @Component(enabled = true, immediate = true)
-public class ComponentFactorySlf4jLogger implements ILoggerFactory,
-        LoggingManagementService {
+public class ComponentFactorySlf4jLogger implements ILoggerFactory {
 
     private static org.slf4j.Logger logger = LoggerFactory
             .getLogger(ComponentFactorySlf4jLogger.class);
@@ -89,14 +87,12 @@ public class ComponentFactorySlf4jLogger implements ILoggerFactory,
         setupLoggingEngine(ctx.getProperties());
     }
 
-    @Override
     public void setLogLevel(String logName, String level) {
         Logger logger = getLoggerContext().getLogger(logName);
         logger.setLevel(Level.toLevel(level));
 
     }
 
-    @Override
     public void setRootLogLevel(String level) {
         rootLogger.setLevel(Level.toLevel(level));
     }
