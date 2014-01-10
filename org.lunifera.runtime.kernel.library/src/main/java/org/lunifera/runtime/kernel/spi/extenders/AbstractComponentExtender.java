@@ -400,10 +400,17 @@ public abstract class AbstractComponentExtender extends
         getContributionHandlerServiceTracker().open();
 
         try {
-            getContributionHandlerServiceTracker().waitForService(500);
+            getContributionHandlerServiceTracker().waitForService(1500);
         } catch (InterruptedException e) {
-            error("Couldn't find an implementation of ContributionHandlerService.",
+            warn("Couldn't find an implementation of ContributionHandlerService.",
                     e);
+            try {
+                getContributionHandlerServiceTracker().waitForService(1500);
+            } catch (InterruptedException e2) {
+                error("Couldn't find an implementation of ContributionHandlerService.",
+                        e2);
+                throw e2;
+            }
         }
     }
 
