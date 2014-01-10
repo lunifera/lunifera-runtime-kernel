@@ -16,6 +16,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
@@ -54,7 +55,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public abstract class AbstractComponentCompendium extends
-        AbstractComponentBasic implements LoggableComponent {
+        AbstractComponentBasic {
 
     /**
      * Holds an atomic reference of a {@link EventAdmin} service.
@@ -198,60 +199,24 @@ public abstract class AbstractComponentCompendium extends
         super.deactivate(context);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * debug(java.lang.String)
-     */
-    @Override
-    public final void debug(String msg) {
+    protected final void debug(String msg) {
         getLoggerService().debug(msg);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * debug(java.lang.String, java.lang.Object[])
-     */
-    @Override
-    public final void debug(String format, Object... arguments) {
+    protected final void debug(String format, Object... arguments) {
         getLoggerService().debug(format, arguments);
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * error(java.lang.String)
-     */
-    @Override
-    public final void error(String msg) {
+    protected final void error(String msg) {
         getLoggerService().error(msg);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * error(java.lang.String, java.lang.Object[])
-     */
-    @Override
-    public final void error(String format, Object... arguments) {
+    protected final void error(String format, Object... arguments) {
         getLoggerService().error(format, arguments);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.lunifera.runtime.kernel.api.components.LoggableComponent#error(java
-     * .lang.String, java.lang.Throwable)
-     */
-    @Override
-    public void error(String format, Throwable throwable) {
+    protected void error(String format, Throwable throwable) {
         getLoggerService().error(format, throwable);
     }
 
@@ -269,11 +234,10 @@ public abstract class AbstractComponentCompendium extends
      * 
      * @return
      */
-    @Override
     public final Logger getLoggerService() {
         if (loggerServiceRef.get() == null) {
             Logger logger = LoggerFactory
-                    .getLogger(AbstractComponentManageable.class);
+                    .getLogger(AbstractComponentKernelManageable.class);
             return logger;
         }
         return loggerServiceRef.get();
@@ -289,26 +253,12 @@ public abstract class AbstractComponentCompendium extends
         return preferencesServiceRef.get();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * info(java.lang.String)
-     */
-    @Override
-    public final void info(String msg) {
+    protected final void info(String msg) {
         getLoggerService().info(msg);
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * info(java.lang.String, java.lang.Object[])
-     */
-    @Override
-    public final void info(String format, Object... arguments) {
+    protected final void info(String format, Object... arguments) {
         getLoggerService().info(format, arguments);
     }
 
@@ -531,25 +481,11 @@ public abstract class AbstractComponentCompendium extends
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * trace(java.lang.String)
-     */
-    @Override
-    public final void trace(String msg) {
+    protected final void trace(String msg) {
         getLoggerService().trace(msg);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * trace(java.lang.String, java.lang.Object[])
-     */
-    @Override
-    public final void trace(String format, Object... arguments) {
+    protected final void trace(String format, Object... arguments) {
         getLoggerService().trace(format, arguments);
     }
 
@@ -590,26 +526,11 @@ public abstract class AbstractComponentCompendium extends
         preferencesServiceRef.compareAndSet(preferencesService, null);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * warn(java.lang.String)
-     */
-    @Override
-    public void warn(String msg) {
+    protected void warn(String msg) {
         getLoggerService().warn(msg);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.lunifera.runtime.kernel.api.components.LoggableComponent#
-     * warn(java.lang.String, java.lang.Object[])
-     */
-    @Override
-    public void warn(String format, Object... arguments) {
+    protected void warn(String format, Object... arguments) {
         getLoggerService().warn(format, arguments);
     }
-
 }
