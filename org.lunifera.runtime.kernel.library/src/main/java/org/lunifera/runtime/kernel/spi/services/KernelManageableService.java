@@ -8,9 +8,9 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.api.components;
+package org.lunifera.runtime.kernel.spi.services;
 
-import org.osgi.service.event.Event;
+import org.osgi.service.coordinator.Participant;
 
 /**
  * This interface represents an OSGi DS component that aims to be monitored by
@@ -20,7 +20,7 @@ import org.osgi.service.event.Event;
  * @author cvgaviao
  * 
  */
-public interface ManageableComponent extends LoggableComponent {
+public interface KernelManageableService extends Participant {
 
-    public void handleKernelNotification(Event event);
+
 }

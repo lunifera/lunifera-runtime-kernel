@@ -8,48 +8,46 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.api.components;
+package org.lunifera.runtime.kernel.spi.controllers;
 
-import org.lunifera.runtime.kernel.api.AbstractUnrecoverableException;
-
-public class ExceptionUnrecoveredActivationError extends AbstractUnrecoverableException {
+public class ExceptionRuntimeController extends Exception {
 
     private static final long serialVersionUID = 4800465886577999271L;
 
-    public ExceptionUnrecoveredActivationError() {
+    public ExceptionRuntimeController() {
         super();
-    }
-
-    /**
-     * Construct a new ExceptionRuntimeAddon with the specified message.
-     *
-     * @param message
-     *            The message for the exception.
-     */
-    public ExceptionUnrecoveredActivationError(String message) {
-        super(message);
     }
 
     /**
      * Construct a new ExceptionRuntimeAddon with the specified message and
      * cause.
-     *
+     * 
      * @param message
      *            The message for the exception.
      * @param cause
      *            The cause of the exception. May be {@code null}.
      */
-    public ExceptionUnrecoveredActivationError(String message, Throwable cause) {
+    public ExceptionRuntimeController(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
+     * Construct a new ExceptionRuntimeAddon with the specified message.
+     * 
+     * @param message
+     *            The message for the exception.
+     */
+    public ExceptionRuntimeController(String message) {
+        super(message);
+    }
+
+    /**
      * Construct a new ExceptionRuntimeAddon with the specified cause.
-     *
+     * 
      * @param cause
      *            The cause of the exception. May be {@code null}.
      */
-    public ExceptionUnrecoveredActivationError(Throwable cause) {
+    public ExceptionRuntimeController(Throwable cause) {
         super(cause);
     }
 }

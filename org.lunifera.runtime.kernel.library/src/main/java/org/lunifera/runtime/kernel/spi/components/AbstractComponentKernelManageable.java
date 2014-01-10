@@ -8,12 +8,16 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.api.components;
+package org.lunifera.runtime.kernel.spi.components;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.lunifera.runtime.kernel.api.components.AbstractComponentCompendium;
+import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
+import org.lunifera.runtime.kernel.spi.services.KernelManageableService;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.coordinator.Coordination;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
@@ -30,8 +34,8 @@ import org.osgi.service.event.EventHandler;
  * @author Cristiano Gavião
  * 
  */
-public abstract class AbstractComponentManageable extends
-        AbstractComponentCompendium implements ManageableComponent {
+public abstract class AbstractComponentKernelManageable extends
+        AbstractComponentCompendium implements KernelManageableService {
 
     /**
      * Class used to notify the components from kernel events.
@@ -51,7 +55,7 @@ public abstract class AbstractComponentManageable extends
     /**
      * DS needs a default constructor.
      */
-    public AbstractComponentManageable() {
+    public AbstractComponentKernelManageable() {
     }
 
     /**
@@ -59,7 +63,7 @@ public abstract class AbstractComponentManageable extends
      * 
      * @param componentContext
      */
-    protected AbstractComponentManageable(ComponentContext componentContext) {
+    protected AbstractComponentKernelManageable(ComponentContext componentContext) {
         super(componentContext);
     }
 
@@ -109,10 +113,6 @@ public abstract class AbstractComponentManageable extends
 
     }
 
-    protected void doOpenServiceTrackers() throws Exception {
-
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -142,22 +142,6 @@ public abstract class AbstractComponentManageable extends
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.lunifera.runtime.kernel.api.components.AbstractComponentBasic#modified
-     * (org.osgi.service.component.ComponentContext)
-     */
-    @Override
-    protected void modified(ComponentContext context) throws Exception {
-        super.modified(context);
-
-        doCloseServiceTrackers();
-
-        doOpenServiceTrackers();
-    }
-
     /**
      * This method should be implemented by concrete children.
      * 
@@ -174,6 +158,10 @@ public abstract class AbstractComponentManageable extends
     protected void doFirstLevelDeactivation()
             throws ExceptionComponentLifecycle {
         // should be implemented by concrete children.
+    }
+
+    protected void doOpenServiceTrackers() throws Exception {
+
     }
 
     /**
@@ -217,5 +205,70 @@ public abstract class AbstractComponentManageable extends
     private void doUnregisterKernelManagementEventHandler() {
         // TODO Auto-generated method stub
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.service.coordinator.Participant#ended(org.osgi.service.coordinator
+     * .Coordination)
+     */
+    @Override
+    public void ended(Coordination coordination) throws Exception {
+        String name = coordination.getName();
+
+        doKernelProcedure(name);
+
+    }
+
+    /**
+     * @param name
+     */
+    protected void doKernelProcedure(String name) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.service.coordinator.Participant#failed(org.osgi.service.coordinator
+     * .Coordination)
+     */
+    @Override
+    public void failed(Coordination coordination) throws Exception {
+        // means that the any kernel coordination was unsuccessful.
+
+        // check if we need to stop the component
+        Throwable e = coordination.getFailure();
+        if (e instanceof Exception) {
+            getComponentContext().disableComponent(getName());
+        }
+    }
+
+    /**
+     * @param event
+     */
+    protected void handleKernelNotification(Event event) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.lunifera.runtime.kernel.api.components.AbstractComponentBasic#modified
+     * (org.osgi.service.component.ComponentContext)
+     */
+    @Override
+    protected void modified(ComponentContext context) throws Exception {
+        super.modified(context);
+
+        doCloseServiceTrackers();
+
+        doOpenServiceTrackers();
     }
 }
