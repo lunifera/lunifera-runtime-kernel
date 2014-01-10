@@ -187,7 +187,6 @@ public abstract class AbstractIntegrationTest {
                 "org.lunifera.runtime.kernel.configuration");
         assertBundleState(Bundle.ACTIVE,
                 "org.lunifera.runtime.kernel.logging.slf4j");
-        assertBundleState(Bundle.ACTIVE, "org.lunifera.runtime.kernel.security");
         assertBundleState(Bundle.ACTIVE,
                 "org.lunifera.tests.integration.samples.bundle.extendee");
 
@@ -199,9 +198,7 @@ public abstract class AbstractIntegrationTest {
         assertBundleAvailable("org.lunifera.runtime.kernel.library");
         assertBundleAvailable("org.lunifera.runtime.kernel.configuration");
         assertBundleAvailable("org.lunifera.runtime.kernel.logging.slf4j");
-        assertBundleAvailable("org.lunifera.runtime.kernel.security");
         assertBundleAvailable("slf4j.api");
-        assertBundleAvailable("org.apache.shiro.core");
         assertBundleAvailable("org.lunifera.tests.integration.samples.bundle.extendee");
 
     }
