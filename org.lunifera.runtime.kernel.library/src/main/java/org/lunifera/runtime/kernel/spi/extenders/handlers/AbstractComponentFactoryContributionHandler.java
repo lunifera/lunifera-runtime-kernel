@@ -55,15 +55,15 @@ public abstract class AbstractComponentFactoryContributionHandler extends
             throws ExceptionComponentLifecycle {
         super.activate(context);
 
-        String contributorManifestHeaderItemType = (String) getProperties()
+        String contributorManifestHeaderItemTypeStr = (String) getProperties()
                 .get(KernelConstants.EXTENDER_SERVICE_ATTR_CONTRIBUTION_ITEM_RESOURCE_TYPE);
-        String extensionHandlingStrategy = (String) getProperties()
+        String extensionHandlingStrategyStr = (String) getProperties()
                 .get(KernelConstants.EXTENDER_SERVICE_ATTR_EXTENSION_HANDLING_STRATEGY);
 
         this.extensionHandlingStrategy = ExtensionHandlingStrategy
-                .fromString(extensionHandlingStrategy);
+                .fromString(extensionHandlingStrategyStr);
         this.contributionItemResourceType = ContributionItemResourceType
-                .fromString(contributorManifestHeaderItemType);
+                .fromString(contributorManifestHeaderItemTypeStr);
     }
 
     /**

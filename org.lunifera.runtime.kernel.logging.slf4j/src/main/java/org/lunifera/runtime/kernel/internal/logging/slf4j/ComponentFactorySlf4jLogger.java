@@ -88,8 +88,8 @@ public class ComponentFactorySlf4jLogger implements ILoggerFactory {
     }
 
     public void setLogLevel(String logName, String level) {
-        Logger logger = getLoggerContext().getLogger(logName);
-        logger.setLevel(Level.toLevel(level));
+        Logger loggerl = getLoggerContext().getLogger(logName);
+        loggerl.setLevel(Level.toLevel(level));
 
     }
 

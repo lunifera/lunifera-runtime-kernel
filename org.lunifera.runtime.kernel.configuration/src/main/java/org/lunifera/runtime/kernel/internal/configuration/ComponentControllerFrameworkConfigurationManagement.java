@@ -347,7 +347,7 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             if (configuration.getProperties() == null) {
                 if (properties == null) {
                     rproperties = new Hashtable<String, Object>();
-                }else {
+                } else {
                     rproperties = properties;
                 }
                 configuration.update(rproperties);
@@ -427,9 +427,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             }
 
             // add the externalPid as a property
-            if (externalPid != null && !externalPid.isEmpty())
+            if (externalPid != null && !externalPid.isEmpty()) {
                 rproperties.put(EXTERNAL_PID, externalPid);
-
+            }
             configuration.update(rproperties);
 
             // / just for test
@@ -502,9 +502,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             }
             if (value != null) {
                 Dictionary<String, Object> properties = config.getProperties();
-                if (properties == null)
+                if (properties == null) {
                     properties = new Hashtable<String, Object>();
-
+                }
                 properties.put(propertyName, value);
                 properties.put(SERVICE_FACTORYPID, factoryPid);
                 properties.put(SERVICE_PID, pid);
@@ -566,9 +566,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             }
             if (value != null) {
                 Dictionary<String, Object> properties = config.getProperties();
-                if (properties == null)
+                if (properties == null){
                     properties = new Hashtable<String, Object>();
-
+                }
                 properties.put(propertyName, value);
                 config.update(properties);
             }
@@ -582,8 +582,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
 
     protected void unbindConfigurationAdmin(
             ConfigurationAdmin configurationAdmin) {
-        if (this.configurationAdmin == configurationAdmin)
+        if (this.configurationAdmin == configurationAdmin){
             this.configurationAdmin = null;
+        }
         trace("Unbound ConfigurationAdminService");
     }
 

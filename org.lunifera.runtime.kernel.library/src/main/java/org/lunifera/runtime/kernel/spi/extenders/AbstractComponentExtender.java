@@ -376,9 +376,9 @@ public abstract class AbstractComponentExtender extends
     protected void doOpenServiceTrackers() throws ExceptionComponentLifecycle {
         super.doOpenServiceTrackers();
 
-        if (contributionHandlerServiceFilter == null)
+        if (contributionHandlerServiceFilter == null) {
             contributionHandlerServiceFilter = buildFilter();
-
+        }
         if (contributionHandlerServiceFilter == null) {
             throw new ExceptionComponentUnrecoveredActivationError(
                     "The extender class requires a proper configuration of the @ComponentExtenderSetup annotation.");

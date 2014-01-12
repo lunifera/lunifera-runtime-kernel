@@ -282,27 +282,22 @@ public abstract class AbstractComponentCompendium extends
             eventAdminServiceTracker = new ServiceTracker<>(getBundleContext(),
                     filter,
                     new ServiceTrackerCustomizer<EventAdmin, EventAdmin>() {
-
                         @Override
                         public EventAdmin addingService(
                                 ServiceReference<EventAdmin> reference) {
                             EventAdmin eventAdmin = getBundleContext()
                                     .getService(reference);
                             bindEventAdmin(eventAdmin);
-
                             return eventAdmin;
                         }
-
                         @Override
                         public void modifiedService(
                                 ServiceReference<EventAdmin> reference,
                                 EventAdmin service) {
-
                             if (getEventAdminService().equals(service)) {
                                 addingService(reference);
                             }
                         }
-
                         @Override
                         public void removedService(
                                 ServiceReference<EventAdmin> reference,
@@ -333,7 +328,6 @@ public abstract class AbstractComponentCompendium extends
             }
             loggerServiceTracker = new ServiceTracker<>(getBundleContext(),
                     filter, new ServiceTrackerCustomizer<Logger, Logger>() {
-
                         @Override
                         public Logger addingService(
                                 ServiceReference<Logger> reference) {
@@ -342,7 +336,6 @@ public abstract class AbstractComponentCompendium extends
                             bindLoggerService(logger);
                             return logger;
                         }
-
                         @Override
                         public void modifiedService(
                                 ServiceReference<Logger> reference,
@@ -350,9 +343,7 @@ public abstract class AbstractComponentCompendium extends
                             if (getLoggerService().equals(service)) {
                                 addingService(reference);
                             }
-                            System.err.println("SERVICE MODIFICATION !!!!");
                         }
-
                         @Override
                         public void removedService(
                                 ServiceReference<Logger> reference,
@@ -385,7 +376,6 @@ public abstract class AbstractComponentCompendium extends
                     getBundleContext(),
                     filter,
                     new ServiceTrackerCustomizer<PreferencesService, PreferencesService>() {
-
                         @Override
                         public PreferencesService addingService(
                                 ServiceReference<PreferencesService> reference) {
@@ -394,7 +384,6 @@ public abstract class AbstractComponentCompendium extends
                             bindPreferencesService(preferencesService);
                             return preferencesService;
                         }
-
                         @Override
                         public void modifiedService(
                                 ServiceReference<PreferencesService> reference,
@@ -403,7 +392,6 @@ public abstract class AbstractComponentCompendium extends
                                 addingService(reference);
                             }
                         }
-
                         @Override
                         public void removedService(
                                 ServiceReference<PreferencesService> reference,
