@@ -13,7 +13,7 @@ package org.lunifera.runtime.kernel.internal.logging;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.felix.service.command.Descriptor;
-import org.lunifera.runtime.kernel.spi.components.AbstractComponentCommand;
+import org.lunifera.runtime.kernel.api.components.AbstractComponentCommand;
 import org.lunifera.runtime.kernel.spi.logging.ManagementServiceFrameworkLogging;
 import org.lunifera.runtime.kernel.spi.services.CommandService;
 import org.osgi.service.component.annotations.Component;
