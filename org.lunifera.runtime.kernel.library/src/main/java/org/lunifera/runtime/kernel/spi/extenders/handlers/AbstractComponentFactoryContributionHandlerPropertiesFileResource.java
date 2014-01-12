@@ -79,11 +79,11 @@ public abstract class AbstractComponentFactoryContributionHandlerPropertiesFileR
             Bundle contributorBundle, String candidateItemPath) {
         BundleWiring bundleWiring = contributorBundle.adapt(BundleWiring.class);
         
-        String dir = candidateItemPath.substring(0, candidateItemPath.lastIndexOf("/"));
+        String dir = candidateItemPath.substring(0, candidateItemPath.lastIndexOf('/'));
         if (dir == null || dir.isEmpty()){
             dir = "/";
         }
-        String pattern = candidateItemPath.substring(candidateItemPath.lastIndexOf("/")+1);
+        String pattern = candidateItemPath.substring(candidateItemPath.lastIndexOf('/')+1);
                 
         Collection<String> resourcePaths = bundleWiring.listResources(dir,
                 pattern, BundleWiring.LISTRESOURCES_RECURSE);

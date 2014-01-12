@@ -14,14 +14,15 @@ import java.util.Dictionary;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.lunifera.runtime.kernel.api.KernelConstants;
+import org.lunifera.runtime.kernel.api.components.AbstractComponentKernelManageable;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentUnrecoveredActivationError;
 import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
-import org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentConstants;
 import org.osgi.service.component.ComponentContext;
@@ -292,7 +293,7 @@ public abstract class AbstractComponentExtender extends
                         .getClass().getName());
     }
 
-    protected Filter buildFilter() throws Exception {
+    protected Filter buildFilter() throws ExceptionComponentLifecycle {
 
         Filter contributionHandlerServiceFilter;
 
@@ -323,8 +324,12 @@ public abstract class AbstractComponentExtender extends
 
         // create the filter that will be used to track the contribution
         // handler service
-        contributionHandlerServiceFilter = getBundleContext().createFilter(
-                filterStr.toString());
+        try {
+            contributionHandlerServiceFilter = getBundleContext().createFilter(
+                    filterStr.toString());
+        } catch (InvalidSyntaxException e) {
+            throw new ExceptionComponentLifecycle(e);
+        }
 
         trace("processed the following filter: '" + filterStr.toString());
 
@@ -370,7 +375,7 @@ public abstract class AbstractComponentExtender extends
      * #doOpenServiceTrackers()
      */
     @Override
-    protected void doOpenServiceTrackers() throws Exception {
+    protected void doOpenServiceTrackers() throws ExceptionComponentLifecycle {
         super.doOpenServiceTrackers();
 
         if (contributionHandlerServiceFilter == null)
@@ -407,30 +412,26 @@ public abstract class AbstractComponentExtender extends
         Object stateMaskLoc = properties
                 .get(KernelConstants.EXTENDER_SERVICE_LOOKUP_STATE_MASK);
 
-        if (contributionItemResourceTypeLoc != null
-                && contributionItemResourceTypeLoc instanceof String) {
+        if (contributionItemResourceTypeLoc instanceof String) {
             contributionItemResourceType = ContributionItemResourceType
                     .fromString((String) contributionItemResourceTypeLoc);
         }
-        if (contributionItemResourceTypeLoc != null
-                && contributionItemResourceTypeLoc instanceof String) {
+        if (contributionItemResourceTypeLoc instanceof String) {
             extensionHandlingStrategy = ExtensionHandlingStrategy
                     .fromString((String) properties
                             .get(KernelConstants.EXTENDER_SERVICE_ATTR_EXTENSION_HANDLING_STRATEGY));
         }
 
-        if (targetContributionHandlerServiceLoc != null
-                && targetContributionHandlerServiceLoc instanceof String) {
+        if (targetContributionHandlerServiceLoc instanceof String) {
             targetContributionHandlerService = (String) targetContributionHandlerServiceLoc;
         }
 
         // used by the bundle tracker
-        if (extenderContributorManifestHeaderLoc != null
-                && extenderContributorManifestHeaderLoc instanceof String) {
+        if (extenderContributorManifestHeaderLoc instanceof String) {
             extenderContributorManifestHeader = (String) extenderContributorManifestHeaderLoc;
         }
 
-        if (stateMaskLoc != null && stateMaskLoc instanceof Integer) {
+        if (stateMaskLoc instanceof Integer) {
 
             stateMask = (int) stateMaskLoc;
         }
@@ -444,7 +445,8 @@ public abstract class AbstractComponentExtender extends
      * #doProcessRuntimeAnnotations()
      */
     @Override
-    protected void doProcessRuntimeAnnotations() throws Exception {
+    protected void doProcessRuntimeAnnotations()
+            throws ExceptionComponentLifecycle {
         if (this.getClass().isAnnotationPresent(ComponentExtenderSetup.class)) {
 
             ComponentExtenderSetup extenderSetupAnnotation = this.getClass()
@@ -582,11 +584,15 @@ public abstract class AbstractComponentExtender extends
                 contributionHandlerService, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable#doFirstLevelActivation()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable
+     * #doFirstLevelActivation()
      */
     @Override
     protected void doFirstLevelActivation() throws ExceptionComponentLifecycle {
-        
+
     }
 }

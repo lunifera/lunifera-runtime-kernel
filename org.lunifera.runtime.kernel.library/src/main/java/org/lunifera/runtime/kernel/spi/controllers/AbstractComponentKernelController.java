@@ -12,8 +12,8 @@ package org.lunifera.runtime.kernel.spi.controllers;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.lunifera.runtime.kernel.api.components.AbstractComponentKernelManageable;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
-import org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.coordinator.Coordination;
 import org.osgi.service.coordinator.Coordinator;
@@ -98,7 +98,7 @@ public abstract class AbstractComponentKernelController extends
      * #doProcessRuntimeAnnotations(j)
      */
     @Override
-    protected void doProcessRuntimeAnnotations() throws Exception {
+    protected void doProcessRuntimeAnnotations() throws ExceptionComponentLifecycle {
     }
 
     protected Coordinator getCoordinator() {

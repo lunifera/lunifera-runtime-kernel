@@ -8,13 +8,11 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.spi.components;
+package org.lunifera.runtime.kernel.api.components;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import org.lunifera.runtime.kernel.api.components.AbstractComponentCompendium;
-import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
 import org.lunifera.runtime.kernel.spi.services.KernelManageableService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.coordinator.Coordination;
@@ -63,7 +61,8 @@ public abstract class AbstractComponentKernelManageable extends
      * 
      * @param componentContext
      */
-    protected AbstractComponentKernelManageable(ComponentContext componentContext) {
+    protected AbstractComponentKernelManageable(
+            ComponentContext componentContext) {
         super(componentContext);
     }
 
@@ -75,38 +74,30 @@ public abstract class AbstractComponentKernelManageable extends
      * #activate(org.osgi.service.component.ComponentContext)
      */
     @Override
-    public final void activate(ComponentContext context) throws Exception {
+    public final void activate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
-        try {
-            super.activate(context);
+        super.activate(context);
 
-            if (getClass().getAnnotations().length > 0) {
-                trace("({}) - Starting annotations processing...", getId());
-                doProcessRuntimeAnnotations();
-            }
-
-            if (!getProperties().isEmpty()) {
-                trace("({}) - Starting properties processing...", getId());
-                doProcessProperties(getProperties());
-            }
-
-            trace("({}) - Openning service trackers...", getId());
-            doOpenServiceTrackers();
-
-            trace("({}) - Registering kernel event handlers of component...",
-                    getId());
-            doRegisterKernelManagementEventHandler();
-
-            trace("({}) - Starting first level activation of component...",
-                    getId());
-            doFirstLevelActivation();
-
-        } catch (Exception e) {
-
-            error("({}) - Exception while activating a manageable component...",
-                    e, getId());
-            throw e;
+        if (getClass().getAnnotations().length > 0) {
+            trace("({}) - Starting annotations processing...", getId());
+            doProcessRuntimeAnnotations();
         }
+
+        if (!getProperties().isEmpty()) {
+            trace("({}) - Starting properties processing...", getId());
+            doProcessProperties(getProperties());
+        }
+
+        trace("({}) - Openning service trackers...", getId());
+        doOpenServiceTrackers();
+
+        trace("({}) - Registering kernel event handlers of component...",
+                getId());
+        doRegisterKernelManagementEventHandler();
+
+        trace("({}) - Starting first level activation of component...", getId());
+        doFirstLevelActivation();
 
         debug("({}) - First level activation of component '{}' was executed with success.",
                 getId(), getName());
@@ -121,7 +112,8 @@ public abstract class AbstractComponentKernelManageable extends
      * #deactivate(org.osgi.service.component.ComponentContext)
      */
     @Override
-    public final void deactivate(ComponentContext context) throws Exception {
+    public final void deactivate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
         trace("deactivating component '{}'.", getId());
 
@@ -160,7 +152,7 @@ public abstract class AbstractComponentKernelManageable extends
         // should be implemented by concrete children.
     }
 
-    protected void doOpenServiceTrackers() throws Exception {
+    protected void doOpenServiceTrackers() throws ExceptionComponentLifecycle {
 
     }
 
@@ -182,7 +174,8 @@ public abstract class AbstractComponentKernelManageable extends
      * 
      * @throws Exception
      */
-    protected abstract void doProcessRuntimeAnnotations() throws Exception;
+    protected abstract void doProcessRuntimeAnnotations()
+            throws ExceptionComponentLifecycle;
 
     /**
      * This method will register the EventHandler that will start the 2nd level

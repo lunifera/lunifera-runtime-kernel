@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.lunifera.runtime.kernel.spi.components;
+package org.lunifera.runtime.kernel.api.components;
 
-import org.lunifera.runtime.kernel.api.components.AbstractComponentCompendium;
 import org.lunifera.runtime.kernel.spi.services.CommandService;
 import org.osgi.service.component.ComponentContext;
 

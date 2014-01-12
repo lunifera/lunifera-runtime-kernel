@@ -12,6 +12,7 @@ package org.lunifera.runtime.kernel.spi.extenders.handlers;
 
 import org.lunifera.runtime.kernel.api.KernelConstants;
 import org.lunifera.runtime.kernel.api.components.AbstractComponentCompendium;
+import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
 import org.lunifera.runtime.kernel.spi.extenders.ContributionHandlerService;
 import org.lunifera.runtime.kernel.spi.extenders.ContributionItemResourceType;
 import org.lunifera.runtime.kernel.spi.extenders.ExtensionHandlingStrategy;
@@ -50,13 +51,14 @@ public abstract class AbstractComponentFactoryContributionHandler extends
      * #activate(org.osgi.service.component.ComponentContext)
      */
     @Override
-    public void activate(ComponentContext context) throws Exception {
+    public void activate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
         super.activate(context);
 
         String contributorManifestHeaderItemType = (String) getProperties()
                 .get(KernelConstants.EXTENDER_SERVICE_ATTR_CONTRIBUTION_ITEM_RESOURCE_TYPE);
-        String extensionHandlingStrategy = (String) getProperties().get(
-                KernelConstants.EXTENDER_SERVICE_ATTR_EXTENSION_HANDLING_STRATEGY);
+        String extensionHandlingStrategy = (String) getProperties()
+                .get(KernelConstants.EXTENDER_SERVICE_ATTR_EXTENSION_HANDLING_STRATEGY);
 
         this.extensionHandlingStrategy = ExtensionHandlingStrategy
                 .fromString(extensionHandlingStrategy);

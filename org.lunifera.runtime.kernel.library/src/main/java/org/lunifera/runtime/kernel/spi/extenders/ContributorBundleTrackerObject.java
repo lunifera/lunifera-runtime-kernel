@@ -31,7 +31,7 @@ import com.google.common.collect.Maps;
  */
 public class ContributorBundleTrackerObject {
 
-    public final class ContributionItem {
+    public static final class ContributionItem {
 
         public static final String EXTENDER_CONTRIBUTOR_BUNDLE = "lunifera.extender.contributor.bundle";
         public static final String EXTENDER_CONTRIBUTOR_BUNDLE_VERSION = "lunifera.extender.contributor.bundle.version";

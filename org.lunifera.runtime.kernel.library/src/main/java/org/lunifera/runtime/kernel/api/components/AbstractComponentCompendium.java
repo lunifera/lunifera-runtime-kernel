@@ -16,7 +16,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.lunifera.runtime.kernel.spi.components.AbstractComponentKernelManageable;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
@@ -106,7 +105,8 @@ public abstract class AbstractComponentCompendium extends
     }
 
     @Override
-    public void activate(ComponentContext context) throws Exception {
+    public void activate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
         trace("({}) - Activating component '{}'.", getId(), getName());
 
@@ -114,24 +114,6 @@ public abstract class AbstractComponentCompendium extends
 
         openCompendiumServiceTrackers();
 
-    }
-
-    /**
-     * @throws Exception
-     * 
-     */
-    private void openCompendiumServiceTrackers() throws Exception {
-        if (loggerServiceRef.get() == null) {
-            openTrackerForLoggingService();
-        }
-
-        if (eventAdminServiceRef.get() == null) {
-            openTrackerForEventAdminService();
-        }
-
-        if (preferencesServiceRef.get() == null) {
-            openTrackerForPreferenceService();
-        }
     }
 
     /**
@@ -191,7 +173,8 @@ public abstract class AbstractComponentCompendium extends
      * (org.osgi.service.component.ComponentContext)
      */
     @Override
-    public void deactivate(ComponentContext context) throws Exception {
+    public void deactivate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
         debug("({}) - deactivating component '{}'.", getId(), getName());
 
         closeCompendiumServicesTrackers();
@@ -263,12 +246,31 @@ public abstract class AbstractComponentCompendium extends
     }
 
     /**
+     * @throws Exception
+     * 
+     */
+    private void openCompendiumServiceTrackers() throws ExceptionComponentLifecycle {
+        if (loggerServiceRef.get() == null) {
+            openTrackerForLoggingService();
+        }
+
+        if (eventAdminServiceRef.get() == null) {
+            openTrackerForEventAdminService();
+        }
+
+        if (preferencesServiceRef.get() == null) {
+            openTrackerForPreferenceService();
+        }
+    }
+
+    /**
      * Hook method used to setup all needed ServiceTracker (when not using DS)
      * 
      * @throws Exception
      * @nooverride
      */
-    protected boolean openTrackerForEventAdminService() throws Exception {
+    protected boolean openTrackerForEventAdminService()
+            throws ExceptionComponentLifecycle {
         if (eventAdminServiceTracker == null) {
             Filter filter;
             try {
@@ -319,7 +321,8 @@ public abstract class AbstractComponentCompendium extends
      * @throws Exception
      * @nooverride
      */
-    protected boolean openTrackerForLoggingService() throws Exception {
+    protected boolean openTrackerForLoggingService()
+            throws ExceptionComponentLifecycle {
         if (loggerServiceTracker == null) {
             Filter filter;
             try {
@@ -368,7 +371,8 @@ public abstract class AbstractComponentCompendium extends
      * @throws Exception
      * @nooverride
      */
-    protected boolean openTrackerForPreferenceService() throws Exception {
+    protected boolean openTrackerForPreferenceService()
+            throws ExceptionComponentLifecycle {
         if (preferenceServiceTracker == null) {
             Filter filter;
             try {
