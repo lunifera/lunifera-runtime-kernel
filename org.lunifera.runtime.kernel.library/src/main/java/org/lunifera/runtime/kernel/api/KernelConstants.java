@@ -39,5 +39,5 @@ public interface KernelConstants {
 
     String LUNIFERA_LOGGER_NAME = "lunifera.logger.name";
 
-    public static final String COMPONENT_DESCRIPTION = "component.description";
+    String COMPONENT_DESCRIPTION = "component.description";
 }

@@ -54,15 +54,16 @@ public class ComponentControllerFrameworkConfigurationManagement extends
         Configuration configuration;
         try {
             configuration = findFactoryConfiguration(factoryPid, pid);
-            if (configuration != null)
+            if (configuration != null) {
                 try {
                     configuration.delete();
                 } catch (IOException e) {
                     error("Error on setup Configuration Service", e);
                 }
-            else
+            } else {
                 debug("no configuration for factoryPid '" + factoryPid
                         + "' and pid '" + pid + "'");
+            }
         } catch (IOException e1) {
             error("no configuration for factoryPid '" + factoryPid
                     + "' and pid '" + pid + "'", e1);
@@ -123,14 +124,15 @@ public class ComponentControllerFrameworkConfigurationManagement extends
         Configuration configuration;
         try {
             configuration = findConfiguration(pid);
-            if (configuration != null)
+            if (configuration != null) {
                 try {
                     configuration.delete();
                 } catch (IOException e) {
                     error("Error on setup Configuration Service", e);
                 }
-            else
+            } else {
                 debug("no configuration for pid '" + pid + "'");
+            }
         } catch (IOException e1) {
             error("no configuration for pid '" + pid + "'", e1);
         }
@@ -249,9 +251,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
         Configuration configuration;
         try {
             configuration = findFactoryConfiguration(factoryPid, pid);
-            if (configuration != null)
+            if (configuration != null) {
                 return (String) configuration.getProperties().get(propertyName);
-            else {
+            } else {
                 warn("no configuration for FactoryPID: '"
                         + factoryPid
                         + "' and PID: '"
@@ -311,9 +313,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
         Configuration configuration;
         try {
             configuration = findConfiguration(pid);
-            if (configuration != null)
+            if (configuration != null) {
                 return (String) configuration.getProperties().get(propertyName);
-            else {
+            } else {
                 warn("no configuration for pid '"
                         + pid
                         + "' (use 'initializeFactoryConfigurationStore' to create one)");
@@ -335,13 +337,8 @@ public class ComponentControllerFrameworkConfigurationManagement extends
     public void initializeConfigurationStore(String pid,
             Dictionary<String, Object> properties) {
         Configuration configuration;
-
+        Dictionary<String, Object> rproperties;
         try {
-
-            if (configurationAdmin == null)
-                throw new RuntimeException(
-                        "Configuration Admin Manager was not wired !!!");
-
             configuration = configurationAdmin.getConfiguration(pid, null);
             // Ensure update is called, when properties are null; otherwise
             // configuration will not
@@ -349,11 +346,13 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             // 104.15.3.7)
             if (configuration.getProperties() == null) {
                 if (properties == null) {
-                    properties = new Hashtable<String, Object>();
+                    rproperties = new Hashtable<String, Object>();
+                }else {
+                    rproperties = properties;
                 }
-                configuration.update(properties);
+                configuration.update(rproperties);
                 debug("Initialized store under PID: '" + pid
-                        + "', with this properties: " + properties.toString());
+                        + "', with this properties: " + rproperties.toString());
             } else {
                 warn("Configuration for PID was already initialized: ' " + pid
                         + "'.");
@@ -407,13 +406,9 @@ public class ComponentControllerFrameworkConfigurationManagement extends
     public String initializeFactoryConfigurationStore(String factoryPid,
             String externalPid, Dictionary<String, Object> properties) {
         Configuration configuration;
-
+        Dictionary<String, Object> rproperties;
         String pid = null;
         try {
-
-            if (configurationAdmin == null)
-                throw new RuntimeException(
-                        "Configuration Admin Manager was not wired !!!");
 
             // try to find an existing configuration
             configuration = findFactoryConfigurationForExternalPid(factoryPid,
@@ -426,21 +421,23 @@ public class ComponentControllerFrameworkConfigurationManagement extends
             pid = configuration.getPid();
 
             if (properties == null) {
-                properties = new Hashtable<String, Object>();
+                rproperties = new Hashtable<String, Object>();
+            } else {
+                rproperties = properties;
             }
 
             // add the externalPid as a property
             if (externalPid != null && !externalPid.isEmpty())
-                properties.put(EXTERNAL_PID, externalPid);
+                rproperties.put(EXTERNAL_PID, externalPid);
 
-            configuration.update(properties);
+            configuration.update(rproperties);
 
             // / just for test
             // displayFactoryConfiguration(factoryPid);
 
             debug("Initialized store under FactoryPID: '" + factoryPid
                     + "' and PID: '" + configuration.getPid()
-                    + "' , with this properties: " + properties.toString());
+                    + "' , with this properties: " + rproperties.toString());
 
         } catch (IOException e) {
             error("Error on setup Configuration Service", e);

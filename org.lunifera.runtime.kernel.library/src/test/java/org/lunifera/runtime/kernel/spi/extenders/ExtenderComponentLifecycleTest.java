@@ -29,7 +29,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lunifera.runtime.kernel.api.KernelConstants;
-import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
 import org.lunifera.runtime.kernel.spi.extenders.AbstractComponentExtender.ContributorBundleTracker;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;

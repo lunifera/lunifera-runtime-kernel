@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.lunifera.runtime.kernel.internal.configuration;
 
-import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
 import org.lunifera.runtime.kernel.spi.extenders.AbstractComponentExtender;
 import org.lunifera.runtime.kernel.spi.extenders.ComponentExtenderService;
+import org.lunifera.runtime.kernel.spi.extenders.ComponentExtenderSetup;
 import org.lunifera.runtime.kernel.spi.extenders.ContributionHandlerService;
 import org.osgi.framework.Filter;
 import org.osgi.service.component.ComponentContext;

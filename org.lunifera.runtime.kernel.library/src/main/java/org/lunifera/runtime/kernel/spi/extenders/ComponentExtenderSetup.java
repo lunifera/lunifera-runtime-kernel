@@ -8,7 +8,7 @@
  * Contributors:
  *     Cristiano Gavião - initial API and implementation
  *******************************************************************************/
-package org.lunifera.runtime.kernel.spi.annotations;
+package org.lunifera.runtime.kernel.spi.extenders;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,9 +16,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.lunifera.runtime.kernel.spi.extenders.AbstractComponentExtender;
-import org.lunifera.runtime.kernel.spi.extenders.ContributionItemResourceType;
-import org.lunifera.runtime.kernel.spi.extenders.ExtensionHandlingStrategy;
 import org.osgi.framework.Bundle;
 
 /**

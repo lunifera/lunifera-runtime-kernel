@@ -17,7 +17,6 @@ import org.lunifera.runtime.kernel.api.KernelConstants;
 import org.lunifera.runtime.kernel.api.components.AbstractComponentKernelManageable;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentLifecycle;
 import org.lunifera.runtime.kernel.api.components.ExceptionComponentUnrecoveredActivationError;
-import org.lunifera.runtime.kernel.spi.annotations.ComponentExtenderSetup;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -70,14 +69,14 @@ public abstract class AbstractComponentExtender extends
          * @param context
          * @param stateMask
          * @param customizer
-         * @throws ExceptionComponentUnrecoveredActivationError
+         * @throws ExceptionComponentLifecycle
          */
         protected ContributorBundleTracker(
                 AbstractComponentExtender abstractComponentExtender,
                 BundleContext context,
                 int stateMask,
                 BundleTrackerCustomizer<ContributorBundleTrackerObject> customizer)
-                throws ExceptionComponentUnrecoveredActivationError {
+                throws ExceptionComponentLifecycle {
             super(context, stateMask, customizer);
             this.abstractComponentExtender = abstractComponentExtender;
             this.contributionHandlerService = abstractComponentExtender
@@ -92,12 +91,11 @@ public abstract class AbstractComponentExtender extends
          * 
          * @param abstractComponentExtender
          * @param stateMask
-         * @throws ExceptionComponentUnrecoveredActivationError
+         * @throws ExceptionComponentLifecycle
          */
         protected ContributorBundleTracker(
                 AbstractComponentExtender abstractComponentExtender,
-                int stateMask)
-                throws ExceptionComponentUnrecoveredActivationError {
+                int stateMask) throws ExceptionComponentLifecycle {
             this(abstractComponentExtender, abstractComponentExtender
                     .getComponentContext().getBundleContext(), stateMask, null);
         }
@@ -497,7 +495,12 @@ public abstract class AbstractComponentExtender extends
                             ContributionHandlerService service = getBundleContext()
                                     .getService(reference);
                             contributionHandlerServiceRef.set(service);
-                            openContributorBundleTracker();
+                            try {
+                                openContributorBundleTracker();
+                            } catch (ExceptionComponentLifecycle e) {
+                                error("Error when activating contributor bundle tracker.",
+                                        e);
+                            }
                             return service;
                         }
 
@@ -549,7 +552,8 @@ public abstract class AbstractComponentExtender extends
         return contributionItemResourceType;
     }
 
-    protected void openContributorBundleTracker() {
+    protected void openContributorBundleTracker()
+            throws ExceptionComponentLifecycle {
         if (contributorBundleTracker == null) {
             contributorBundleTracker = new ContributorBundleTracker(this,
                     stateMask);
