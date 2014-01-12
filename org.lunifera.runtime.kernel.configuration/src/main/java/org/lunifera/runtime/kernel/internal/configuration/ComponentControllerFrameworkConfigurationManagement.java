@@ -80,6 +80,7 @@ public class ComponentControllerFrameworkConfigurationManagement extends
                 return configurations[0];
             }
         } catch (InvalidSyntaxException e) {
+            error("Error in the pid filter...", e);
         }
 
         return null;
@@ -104,6 +105,7 @@ public class ComponentControllerFrameworkConfigurationManagement extends
                 return configurations[0];
             }
         } catch (InvalidSyntaxException e) {
+            error("Error in the pid filter...", e);
         }
 
         return null;
@@ -387,6 +389,7 @@ public class ComponentControllerFrameworkConfigurationManagement extends
                 return configurations[0];
             }
         } catch (InvalidSyntaxException e) {
+            error("Error in the factory Pid filter...", e);
         }
 
         return null;
