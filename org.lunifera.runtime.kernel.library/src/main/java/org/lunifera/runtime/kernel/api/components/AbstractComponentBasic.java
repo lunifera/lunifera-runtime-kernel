@@ -74,7 +74,8 @@ public abstract class AbstractComponentBasic {
      * 
      * @param context
      */
-    protected void activate(ComponentContext context) throws ExceptionComponentLifecycle {
+    protected void activate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
         // save bundleContext reference...
         componentContext = context;
@@ -93,7 +94,8 @@ public abstract class AbstractComponentBasic {
      * 
      * @param context
      */
-    protected void deactivate(ComponentContext context) throws ExceptionComponentLifecycle {
+    protected void deactivate(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
         componentDescription = null;
         componentName = null;
@@ -164,7 +166,8 @@ public abstract class AbstractComponentBasic {
      * 
      * @param context
      */
-    protected void modified(ComponentContext context) throws Exception {
+    protected void modified(ComponentContext context)
+            throws ExceptionComponentLifecycle {
 
         activate(context);
     }

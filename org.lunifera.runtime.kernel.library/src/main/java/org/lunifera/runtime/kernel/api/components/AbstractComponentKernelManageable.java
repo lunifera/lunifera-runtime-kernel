@@ -257,7 +257,7 @@ public abstract class AbstractComponentKernelManageable extends
      * (org.osgi.service.component.ComponentContext)
      */
     @Override
-    protected void modified(ComponentContext context) throws Exception {
+    protected void modified(ComponentContext context) throws ExceptionComponentLifecycle {
         super.modified(context);
 
         doCloseServiceTrackers();
