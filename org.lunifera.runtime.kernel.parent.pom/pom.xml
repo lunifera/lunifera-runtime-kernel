@@ -24,15 +24,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<properties>
-		<!-- Sonar -->
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<sonar.language>java</sonar.language>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -75,40 +66,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<configuration>
-					<append>true</append>
-				</configuration>
-				<executions>
-					<execution>
-						<id>prepare-unit-tests</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<output>file</output>
-							<destFile>${sonar.jacoco.reportPath}</destFile>
-							<propertyName>jacoco.agent-un.argLine</propertyName>
-							<includes>
-								<include>org.lunifera.kernel.*</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<argLine>${jacoco.agent-un.argLine}</argLine>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

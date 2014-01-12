@@ -59,10 +59,11 @@ public abstract class AbstractIntegrationTest {
     // the name of the system property which captures the jacoco coverage agent
     // command
     // if specified then agent would be specified otherwise ignored
-    protected static final String COVERAGE_COMMAND = "coverage.command";
+    protected static final String COVERAGE_COMMAND = "jacoco.agent.it.arg";
 
     private static Option addCodeCoverageOption() {
         String coverageCommand = System.getProperty(COVERAGE_COMMAND);
+        System.out.println("jacoco: " + coverageCommand);
         if (coverageCommand != null) {
             return CoreOptions.vmOption(coverageCommand);
         }
