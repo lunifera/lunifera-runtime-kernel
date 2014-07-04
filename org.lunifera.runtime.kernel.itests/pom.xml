@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.lunifera.releng.maven</groupId>
+		<artifactId>org.lunifera.releng.maven.parent.itests</artifactId>
+		<version>0.7.2-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<groupId>org.lunifera.runtime</groupId>
+	<artifactId>org.lunifera.runtime.kernel.itests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Lunifera Subsystems - Runtime Kernel - Integration Tests</name>
+
+	<properties>
+		<lunifera.kernel.version>${project.version}</lunifera.kernel.version>
+		<lunifera.utils.version>0.0.1-SNAPSHOT</lunifera.utils.version>
+	</properties>
+
+	<url>${distribution.site.url}</url>
+	<distributionManagement>
+		<site>
+			<id>gh-pages</id>
+			<name>Lunifera GitHub Pages</name>
+			<url>${distribution.site.url}</url>
+		</site>
+	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>m2e</id>
+			<!-- This profile is only activated when building in Eclipse with m2e -->
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.lunifera.runtime</groupId>
+				<artifactId>org.lunifera.runtime.kernel.pom.mbp</artifactId>
+				<version>${lunifera.kernel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime</groupId>
+			<artifactId>org.lunifera.runtime.kernel.bootstrap</artifactId>
+			<version>${lunifera.kernel.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime</groupId>
+			<artifactId>org.lunifera.runtime.kernel.api</artifactId>
+			<version>${lunifera.kernel.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime</groupId>
+			<artifactId>org.lunifera.runtime.kernel.controllers</artifactId>
+			<version>${lunifera.kernel.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime</groupId>
+			<artifactId>org.lunifera.runtime.kernel.spi</artifactId>
+			<version>${lunifera.kernel.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.runtime</groupId>
+			<artifactId>org.lunifera.runtime.utils.paxexam</artifactId>
+			<version>${lunifera.utils.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- those hamcrest are aimed to be used inside osgi container -->
+		<dependency>
+			<groupId>org.lunifera.osgi</groupId>
+			<artifactId>org.hamcrest.core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.osgi</groupId>
+			<artifactId>org.hamcrest.integration</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.osgi</groupId>
+			<artifactId>org.hamcrest.library</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.ops4j.pax.exam</groupId>
+				<artifactId>maven-paxexam-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>functional-test</id>
+						<configuration>
+							<includes>
+								<include>**/*ConfigurationManagerExtenderIntegrationTest.java</include>
+								<!-- <include>**/*Test.java</include> -->
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>
